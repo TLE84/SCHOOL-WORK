@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Val?</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Floating hearts background -->
+    <div class="hearts" id="hearts-container"></div>
+    
+    <!-- Page 1: Identity Confirmation -->
+    <div class="page" id="page1">
+        <h1>CAN YOU CONFIRM THAT THIS IS YOU?</h1>
+        <div class="image-container">
+            <i class="fas fa-user-circle heart-icon"><img src="./images/file_0000000026bc71f48a955a0cc78e981c.png" alt=""></i>
+        </div>
+        <div class="buttons">
+            <button class="yes-btn" id="yes-btn-1">Yes, that's me!</button>
+            <button class="no-btn" id="no-btn-1">No, that's not me</button>
+        </div>
+    </div>
+    
+    <!-- Page 2: Partner Confirmation -->
+    <div class="page hidden" id="page2">
+        <h2>IS THIS YOUR PARTNER?</h2>
+        <div class="image-container">
+            <i class="fas fa-heart heart-icon"><img src="./images/1770313796314.jpg" alt=""></i>
+        </div>
+        <div class="buttons">
+            <button class="yes-btn" id="yes-btn-2">Yes, that's my partner!</button>
+            <button class="no-btn" id="no-btn-2">No, that's not my partner</button>
+        </div>
+    </div>
+    
+    <!-- Page 3: Valentine Request -->
+    <div class="page hidden" id="page3">
+        <h1>WILL YOU BE MY VAL?</h1>
+        <div class="val-image">
+            <i class="fas fa-heart"></i>
+        </div>
+        <p class="message">
+            You make every day brighter and every moment more special. 
+            I would be honored if you would be my Valentine!
+        </p>
+        <div class="buttons">
+            <button class="yes-btn" id="yes-btn-final">YES! Absolutely!</button>
+            <button class="no-btn" id="no-btn-final">Maybe next time</button>
+        </div>
+    </div>
+    
+    <!-- Page 4: Final Response -->
+    <div class="page hidden" id="page4">
+        <h1>YAY! 🎉</h1>
+        <div class="val-image">
+            <i class="fas fa-heart-circle-check"></i>
+        </div>
+        <p class="message">
+            You've just made me the happiest person!<br>
+            Get ready for the best Valentine's Day ever! 💖
+        </p>
+        <div class="buttons">
+            <button class="yes-btn" id="restart-btn">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 30;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤';
+                
+                // Random position and animation
+                const left = Math.random() * 100;
+                const size = Math.random() * 20 + 10;
+                const duration = Math.random() * 5 + 5;
+                const delay = Math.random() * 5;
+                
+                heart.style.left = `${left}vw`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Page navigation functions
+        function goToPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show the requested page
+            const targetPage = document.getElementById(pageId);
+            targetPage.classList.remove('hidden');
+            
+            // Add fade-in animation
+            targetPage.style.animation = 'none';
+            setTimeout(() => {
+                targetPage.style.animation = 'fadeIn 0.8s forwards';
+            }, 10);
+        }
+        
+        // Set up event listeners when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            
+            // Page 1 buttons
+            document.getElementById('yes-btn-1').addEventListener('click', function() {
+                goToPage('page2');
+            });
+            
+            document.getElementById('no-btn-1').addEventListener('click', function() {
+                alert("Please ask the intended person to use this website.");
+            });
+            
+            // Page 2 buttons
+            document.getElementById('yes-btn-2').addEventListener('click', function() {
+                goToPage('page3');
+            });
+            
+            document.getElementById('no-btn-2').addEventListener('click', function() {
+                alert("Please confirm your partner to continue.");
+                goToPage('page1');
+            });
+            
+            // Page 3 buttons
+            document.getElementById('yes-btn-final').addEventListener('click', function() {
+                goToPage('page4');
+            });
+            
+            document.getElementById('no-btn-final').addEventListener('click', function() {
+                // Make the "no" button move away when clicked
+                const noBtn = document.getElementById('no-btn-final');
+                noBtn.textContent = "Are you sure?";
+                noBtn.style.transform = "translateX(100px)";
+                
+                // After a moment, reset the button
+                setTimeout(() => {
+                    noBtn.textContent = "Maybe next time";
+                    noBtn.style.transform = "translateX(0)";
+                }, 1000);
+            });
+            
+            // Page 4 restart button
+            document.getElementById('restart-btn').addEventListener('click', function() {
+                goToPage('page1');
+            });
+        });
+    </script>
+</body>
+</html>
